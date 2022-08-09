@@ -1,5 +1,13 @@
 package com.bignerdranch.android.test_3
 
-class PersonsViewModel {
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModel
+import com.bignerdranch.android.test_3.model.Result
 
+class PersonsViewModel : ViewModel() {
+    val personsItemViewModel: LiveData<List<Result>>
+
+    init {
+        personsItemViewModel = PersonsFetch().fetchPerson()
+    }
 }

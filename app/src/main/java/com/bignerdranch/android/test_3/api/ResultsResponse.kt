@@ -1,7 +1,9 @@
 package com.bignerdranch.android.test_3.api
 
-import com.bignerdranch.android.test_3.PersonsItem
+import com.bignerdranch.android.test_3.model.Result
+import com.google.gson.annotations.SerializedName
 
 class ResultsResponse {
-    lateinit var personsItem: List<PersonsItem>
+    @SerializedName("results")
+    lateinit var personsItem: List<Result>
 }
