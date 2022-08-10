@@ -1,11 +1,11 @@
 package com.bignerdranch.android.test_3
 
-import android.annotation.SuppressLint
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -15,18 +15,26 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bignerdranch.android.test_3.databinding.PersonItemListBinding
 import com.bignerdranch.android.test_3.databinding.PersonRecyclerBinding
-import com.bignerdranch.android.test_3.model.Result
+import com.bignerdranch.android.test_3.model.persons.Result
 
 class PersonFragment : Fragment() {
 
     private lateinit var bindingClass: PersonRecyclerBinding
     private lateinit var personRecyclerView: RecyclerView
     private lateinit var personsViewModel: PersonsViewModel
+    private lateinit var thumbnailDownloader: ThumbnailDownloader<PersonHolder>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         personsViewModel = ViewModelProviders.of(this).get(PersonsViewModel::class.java)
+
+        val responseHandler = Handler()
+        thumbnailDownloader = ThumbnailDownloader(responseHandler) { personHolder, bitmap ->
+            val drawable = BitmapDrawable(resources, bitmap)
+            personHolder.binding.imageView.setImageDrawable(drawable)
+        }
+        lifecycle.addObserver(thumbnailDownloader.fragmentLifecycleObserver)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -57,7 +65,6 @@ class PersonFragment : Fragment() {
 
 
         fun bind(person: Result) = with(binding) {
-            //namePerson.text = "Name:" + person.name
             namePerson.text = getString(R.string.name, person.name)
             statusPerson.text = getString(R.string.status, person.status)
             speciesPerson.text = getString(R.string.species, person.species)
@@ -75,11 +82,25 @@ class PersonFragment : Fragment() {
         override fun onBindViewHolder(holder: PersonHolder, position: Int) {
             holder.bind(personItems[position])
 
+            thumbnailDownloader.queueThumbnail(holder, personItems[position].image)
+
         }
 
         override fun getItemCount(): Int = personItems.size
 
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        viewLifecycleOwner.lifecycle.removeObserver(thumbnailDownloader.viewLifecycleObserver)
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        lifecycle.removeObserver(thumbnailDownloader.viewLifecycleObserver)
+    }
+
+
 
     companion object {
         fun newInstance() = PersonFragment()

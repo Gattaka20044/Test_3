@@ -1,10 +1,14 @@
 package com.bignerdranch.android.test_3
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bignerdranch.android.test_3.api.PersonsApi
 import com.bignerdranch.android.test_3.api.ResultsResponse
-import com.bignerdranch.android.test_3.model.Result
+import com.bignerdranch.android.test_3.model.persons.Result
+import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -45,5 +49,14 @@ class PersonsFetch {
             }
         })
         return responseLiveData
+    }
+
+    @WorkerThread
+    fun fetchAvatar(url: String): Bitmap? {
+        val response: Response<ResponseBody> = personsApi.funUrlBytes(url).execute()
+        val bitmap = response.body()?.byteStream()?.use(BitmapFactory::decodeStream)
+
+        return bitmap
+
     }
 }
