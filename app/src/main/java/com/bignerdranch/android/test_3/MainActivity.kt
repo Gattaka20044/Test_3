@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
         if (isfFragmentContainerEmpty) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragmentContainer, PersonFragment.newInstance())
+                .add(R.id.fragmentContainer, PersonsFragment.newInstance())
                 .commit()
         }
     }
