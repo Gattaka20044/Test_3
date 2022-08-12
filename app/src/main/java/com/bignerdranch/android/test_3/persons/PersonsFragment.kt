@@ -1,4 +1,4 @@
-package com.bignerdranch.android.test_3
+package com.bignerdranch.android.test_3.persons
 
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
@@ -13,9 +13,14 @@ import androidx.lifecycle.ViewModelProviders
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
+import com.bignerdranch.android.test_3.R
+import com.bignerdranch.android.test_3.ThumbnailDownloader
 import com.bignerdranch.android.test_3.databinding.PersonItemListBinding
 import com.bignerdranch.android.test_3.databinding.PersonRecyclerBinding
 import com.bignerdranch.android.test_3.model.persons.Result
+import com.bignerdranch.android.test_3.person.PersonFragment
+import com.bignerdranch.android.test_3.persons.PersonsViewModel
 
 private const val ARG_URL_PERSON = "ARG_URL_PERSON"
 
@@ -28,7 +33,6 @@ class PersonsFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
 
 
         personsViewModel = ViewModelProviders.of(this).get(PersonsViewModel::class.java)
@@ -83,13 +87,11 @@ class PersonsFragment : Fragment() {
 
             val fragment = PersonFragment.newInstance(urlPerson = personItem.url)
 
-            val personFragment = PersonFragment()
             parentFragmentManager
                 .beginTransaction()
                 .addToBackStack(null)
                 .replace(R.id.fragmentContainer,fragment)
                 .commit()
-        //Toast.makeText(context, personItem.name, Toast.LENGTH_SHORT).show()
         }
 
         init {

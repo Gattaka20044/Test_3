@@ -7,6 +7,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bignerdranch.android.test_3.api.PersonsApi
 import com.bignerdranch.android.test_3.api.ResultsResponse
+import com.bignerdranch.android.test_3.api.ResultsResponseItem
+import com.bignerdranch.android.test_3.model.person.Person
 import com.bignerdranch.android.test_3.model.persons.Result
 import okhttp3.ResponseBody
 import retrofit2.Call
@@ -29,14 +31,11 @@ class PersonsFetch {
         personsApi = retrofit.create(PersonsApi::class.java)
     }
 
-    fun fetchPerson(): LiveData<List<Result>> {
+    fun fetchPersons(): LiveData<List<Result>> {
         val responseLiveData: MutableLiveData<List<Result>> = MutableLiveData()
         val personRequest: Call<ResultsResponse> = personsApi.fetchPersons()
 
         personRequest.enqueue(object : Callback<ResultsResponse> {
-            override fun onFailure(call: Call<ResultsResponse>, t: Throwable) {
-                TODO("Not yet implemented")
-            }
 
             override fun onResponse(
                 call: Call<ResultsResponse>,
@@ -47,6 +46,11 @@ class PersonsFetch {
 
                 responseLiveData.value = personItems
             }
+
+            override fun onFailure(call: Call<ResultsResponse>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
         })
         return responseLiveData
     }
@@ -58,5 +62,30 @@ class PersonsFetch {
 
         return bitmap
 
+    }
+
+    fun fetchPerson(url: String): LiveData<Person> {
+        val responseLiveData: MutableLiveData<Person> = MutableLiveData()
+        val personRequest: Call<ResultsResponseItem> = personsApi.fetchPerson(url)
+
+        personRequest.enqueue(object : Callback<ResultsResponseItem> {
+
+            override fun onResponse(
+                call: Call<ResultsResponseItem>,
+                response: Response<ResultsResponseItem>
+            ) {
+                val personResponse: ResultsResponseItem? = response.body()
+                val personItem: Person = personResponse!!.personItem
+
+                responseLiveData.value = personItem
+            }
+
+            override fun onFailure(call: Call<ResultsResponseItem>, t: Throwable) {
+                TODO("Not yet implemented")
+            }
+
+        })
+
+        return responseLiveData
     }
 }

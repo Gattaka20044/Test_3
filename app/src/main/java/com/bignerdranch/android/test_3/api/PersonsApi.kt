@@ -11,4 +11,7 @@ interface PersonsApi {
 
     @GET
     fun funUrlBytes(@Url url: String): Call<ResponseBody>
+
+    @GET
+    fun fetchPerson(@Url url: String): Call<ResultsResponseItem>
 }
