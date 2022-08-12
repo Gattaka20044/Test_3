@@ -6,6 +6,7 @@ import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
@@ -60,6 +61,7 @@ class PersonsFragment : Fragment() {
 
         bindingClass = PersonRecyclerBinding.inflate(inflater)
         personRecyclerView = bindingClass.recyclerPerson
+
         personRecyclerView.layoutManager = LinearLayoutManager(context)
 
         return bindingClass.root
@@ -69,8 +71,6 @@ class PersonsFragment : Fragment() {
         val binding = PersonItemListBinding.bind(item)
 
         private lateinit var personItem: Result
-
-
 
         fun bind(person: Result) = with(binding) {
             namePerson.text = getString(R.string.name, person.name)
@@ -84,6 +84,7 @@ class PersonsFragment : Fragment() {
         }
 
         override fun onClick(v: View?) {
+
 
             val fragment = PersonFragment.newInstance(urlPerson = personItem.url)
 

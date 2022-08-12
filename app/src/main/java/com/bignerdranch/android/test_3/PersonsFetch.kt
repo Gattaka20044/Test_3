@@ -2,14 +2,17 @@ package com.bignerdranch.android.test_3
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.util.Log
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bignerdranch.android.test_3.api.PersonsApi
+import com.bignerdranch.android.test_3.api.ResultFragment
 import com.bignerdranch.android.test_3.api.ResultsResponse
-import com.bignerdranch.android.test_3.api.ResultsResponseItem
+import com.bignerdranch.android.test_3.model.person.Origin
 import com.bignerdranch.android.test_3.model.person.Person
 import com.bignerdranch.android.test_3.model.persons.Result
+import com.bignerdranch.android.test_3.person.PersonFragment
 import okhttp3.ResponseBody
 import retrofit2.Call
 import retrofit2.Callback
@@ -64,23 +67,24 @@ class PersonsFetch {
 
     }
 
-    fun fetchPerson(url: String): LiveData<Person> {
-        val responseLiveData: MutableLiveData<Person> = MutableLiveData()
-        val personRequest: Call<ResultsResponseItem> = personsApi.fetchPerson(url)
+    fun fetchPerson(url: String): LiveData<Origin> {
+        val responseLiveData: MutableLiveData<Origin> = MutableLiveData()
+        val personRequest: Call<ResultFragment> = personsApi.fetchPerson(url)
 
-        personRequest.enqueue(object : Callback<ResultsResponseItem> {
+        personRequest.enqueue(object : Callback<ResultFragment> {
 
             override fun onResponse(
-                call: Call<ResultsResponseItem>,
-                response: Response<ResultsResponseItem>
+                call: Call<ResultFragment>,
+                response: Response<ResultFragment>
             ) {
-                val personResponse: ResultsResponseItem? = response.body()
-                val personItem: Person = personResponse!!.personItem
+                val personResponse: ResultFragment? = response.body()
+                val personItem: Origin = personResponse?.personItem ?: Origin()
+
 
                 responseLiveData.value = personItem
             }
 
-            override fun onFailure(call: Call<ResultsResponseItem>, t: Throwable) {
+            override fun onFailure(call: Call<ResultFragment>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 
