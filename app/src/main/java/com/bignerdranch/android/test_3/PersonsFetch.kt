@@ -67,24 +67,21 @@ class PersonsFetch {
 
     }
 
-    fun fetchPerson(url: String): LiveData<Origin> {
-        val responseLiveData: MutableLiveData<Origin> = MutableLiveData()
-        val personRequest: Call<ResultFragment> = personsApi.fetchPerson(url)
+    fun fetchPerson(url: String): LiveData<Person> {
+        val responseLiveData: MutableLiveData<Person> = MutableLiveData()
+        val personRequest: Call<Person> = personsApi.fetchPerson(url)
 
-        personRequest.enqueue(object : Callback<ResultFragment> {
+        personRequest.enqueue(object : Callback<Person> {
 
             override fun onResponse(
-                call: Call<ResultFragment>,
-                response: Response<ResultFragment>
+                call: Call<Person>,
+                response: Response<Person>
             ) {
-                val personResponse: ResultFragment? = response.body()
-                val personItem: Origin = personResponse?.personItem ?: Origin()
-
-
-                responseLiveData.value = personItem
+                val personResponse: Person? = response.body()
+                responseLiveData.value = personResponse
             }
 
-            override fun onFailure(call: Call<ResultFragment>, t: Throwable) {
+            override fun onFailure(call: Call<Person>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 

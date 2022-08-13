@@ -3,6 +3,7 @@ package com.bignerdranch.android.test_3.persons
 import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,6 +24,7 @@ import com.bignerdranch.android.test_3.model.persons.Result
 import com.bignerdranch.android.test_3.person.PersonFragment
 import com.bignerdranch.android.test_3.persons.PersonsViewModel
 
+
 private const val ARG_URL_PERSON = "ARG_URL_PERSON"
 
 class PersonsFragment : Fragment() {
@@ -31,6 +33,7 @@ class PersonsFragment : Fragment() {
     private lateinit var personRecyclerView: RecyclerView
     private lateinit var personsViewModel: PersonsViewModel
     private lateinit var thumbnailDownloader: ThumbnailDownloader<PersonHolder>
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +47,7 @@ class PersonsFragment : Fragment() {
             personHolder.binding.imageView.setImageDrawable(drawable)
         }
         lifecycle.addObserver(thumbnailDownloader.fragmentLifecycleObserver)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -67,7 +71,9 @@ class PersonsFragment : Fragment() {
         return bindingClass.root
     }
 
-    private inner class PersonHolder(item: View) : RecyclerView.ViewHolder(item), View.OnClickListener {
+
+
+     inner class PersonHolder(item: View) : RecyclerView.ViewHolder(item), View.OnClickListener {
         val binding = PersonItemListBinding.bind(item)
 
         private lateinit var personItem: Result
@@ -95,6 +101,7 @@ class PersonsFragment : Fragment() {
                 .commit()
         }
 
+
         init {
             item.setOnClickListener(this)
         }
@@ -120,11 +127,13 @@ class PersonsFragment : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+
         viewLifecycleOwner.lifecycle.removeObserver(thumbnailDownloader.viewLifecycleObserver)
     }
 
     override fun onDestroy() {
         super.onDestroy()
+
         lifecycle.removeObserver(thumbnailDownloader.viewLifecycleObserver)
     }
 

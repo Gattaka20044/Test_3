@@ -1,23 +1,27 @@
 package com.bignerdranch.android.test_3.person
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations
 import androidx.lifecycle.ViewModel
 import com.bignerdranch.android.test_3.PersonsFetch
-import com.bignerdranch.android.test_3.model.person.Origin
 import com.bignerdranch.android.test_3.model.person.Person
-import com.bignerdranch.android.test_3.model.persons.Result
-import com.bignerdranch.android.test_3.persons.PersonsFragment
+import com.bignerdranch.android.test_3.persons.PersonsViewModel
 
-class PersonViewModel: ViewModel() {
+open class PersonViewModel : ViewModel() {
     val personItemViewModel: LiveData<Person>
-    lateinit var personItem: Result
     private val personsFetch = PersonsFetch()
-    private val personFragment = PersonFragment()
+    val urlPersonLiveData = MutableLiveData<String>()
 
     init {
-      personItemViewModel = PersonsFetch().fetchPerson("https://rickandmortyapi.com/api/character/2\")
+
+        personItemViewModel = Transformations.switchMap(urlPersonLiveData) {
+            personsFetch.fetchPerson(it)
+        }
+
     }
 
-
-
+    fun fetchUrlPerson(url: String) {
+        urlPersonLiveData.value = url
+    }
 }
