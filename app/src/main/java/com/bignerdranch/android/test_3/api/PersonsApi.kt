@@ -7,5 +7,5 @@ import retrofit2.http.Query
 
 interface PersonsApi {
     @GET("character")
-    fun fetchPersons(@Query("page") query: Int): Call<Persons>
+    suspend fun fetchPersons(@Query("page") query: Int): Persons
 }

@@ -1,8 +1,8 @@
 package com.bignerdranch.android.test_3
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.bignerdranch.android.test_3.Persons.PersonFragment
+import androidx.appcompat.app.AppCompatActivity
+import com.bignerdranch.android.test_3.Persons.PersonsFragment
 import com.bignerdranch.android.test_3.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -18,7 +18,7 @@ class MainActivity : AppCompatActivity() {
         if (isfFragmentContainerEmpty) {
             supportFragmentManager
                 .beginTransaction()
-                .add(R.id.fragmentContainer, PersonFragment.newInstance())
+                .add(R.id.fragmentContainer, PersonsFragment.newInstance())
                 .commit()
         }
     }
