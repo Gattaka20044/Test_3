@@ -3,8 +3,7 @@ package com.bignerdranch.android.test_3
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.bignerdranch.android.test_3.api.PersonsApi
-import com.bignerdranch.android.test_3.api.ResultsResponse
-import com.bignerdranch.android.test_3.model.Result
+import com.bignerdranch.android.test_3.model.Persons
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -25,23 +24,23 @@ class PersonsFetch {
         personsApi = retrofit.create(PersonsApi::class.java)
     }
 
-    fun fetchPerson(): LiveData<List<Result>> {
-        val responseLiveData: MutableLiveData<List<Result>> = MutableLiveData()
-        val personRequest: Call<ResultsResponse> = personsApi.fetchPersons()
+    fun fetchPerson(page: Int): LiveData<Persons> {
+        val responseLiveData: MutableLiveData<Persons> = MutableLiveData()
+        val personRequest: Call<Persons> = personsApi.fetchPersons(page)
 
-        personRequest.enqueue(object : Callback<ResultsResponse> {
-            override fun onFailure(call: Call<ResultsResponse>, t: Throwable) {
+        personRequest.enqueue(object : Callback<Persons> {
+            override fun onFailure(call: Call<Persons>, t: Throwable) {
                 TODO("Not yet implemented")
             }
 
             override fun onResponse(
-                call: Call<ResultsResponse>,
-                response: Response<ResultsResponse>
+                call: Call<Persons>,
+                response: Response<Persons>
             ) {
-                val personsResponse: ResultsResponse? = response.body()
-                val personItems: List<Result> = personsResponse?.personsItem ?: mutableListOf()
+                val personsResponse: Persons? = response.body()
+                //val personItems: List<Result> = personsResponse?.personsItem ?: mutableListOf()
 
-                responseLiveData.value = personItems
+                responseLiveData.value = personsResponse
             }
         })
         return responseLiveData

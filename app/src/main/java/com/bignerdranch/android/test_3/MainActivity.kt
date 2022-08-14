@@ -2,6 +2,7 @@ package com.bignerdranch.android.test_3
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.bignerdranch.android.test_3.Persons.PersonFragment
 import com.bignerdranch.android.test_3.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

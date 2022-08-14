@@ -1,4 +1,4 @@
-package com.bignerdranch.android.test_3
+package com.bignerdranch.android.test_3.Persons
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProviders
 
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bignerdranch.android.test_3.R
 import com.bignerdranch.android.test_3.databinding.PersonItemListBinding
 import com.bignerdranch.android.test_3.databinding.PersonRecyclerBinding
 import com.bignerdranch.android.test_3.model.Result
@@ -32,7 +33,7 @@ class PersonFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         personsViewModel.personsItemViewModel.observe(viewLifecycleOwner, Observer {
-            personRecyclerView.adapter = PersonAdapter(it)
+            personRecyclerView.adapter = PersonAdapter(it.results)
         })
     }
 
