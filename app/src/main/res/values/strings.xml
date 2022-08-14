@@ -4,5 +4,7 @@
     <string name="status">Status: %1$s</string>
     <string name="species">Species: %1$s</string>
     <string name="gender">Gender: %1$s</string>
+    <string name="last_location">Location: %1$s</string>
+    <string name="number_of_episodes">Episode: %1$s</string>
 
 </resources>

@@ -28,19 +28,19 @@ class PersonsPagingSource(private val loader: PersonsApi) : PagingSource<Int, Re
                 val uri = Uri.parse(response?.info?.prev!!)
                 pervPageNumber = uri?.getQueryParameter("page")?.toInt()
             }
-            Log.d("Load", "${response.info.count}")
+
             LoadResult.Page(data = response.results,
                 prevKey = pervPageNumber,
                 nextKey = nextPageNumber)
 
         } catch (e: Exception) {
-            Log.e("Load", "Load error")
+
             LoadResult.Error(throwable = e)
         }
     }
 
-    override fun getRefreshKey(state: PagingState<Int, Result>): Int {
-        return 1
+    override fun getRefreshKey(state: PagingState<Int, Result>): Int? {
+        return state.anchorPosition
     }
 
     companion object {
