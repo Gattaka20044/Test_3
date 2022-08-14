@@ -10,7 +10,7 @@ import androidx.paging.cachedIn
 import com.bignerdranch.android.test_3.PersonsPagingSource
 import com.bignerdranch.android.test_3.api.PersonsApi
 import com.bignerdranch.android.test_3.api.RetrofitInstance
-import com.bignerdranch.android.test_3.model.Result
+import com.bignerdranch.android.test_3.model.Persons.Result
 import kotlinx.coroutines.flow.Flow
 
 

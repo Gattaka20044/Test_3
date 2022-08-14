@@ -1,4 +1,4 @@
-package com.bignerdranch.android.test_3.model
+package com.bignerdranch.android.test_3.model.Persons
 
 data class Info(
     val count: Int,

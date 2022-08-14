@@ -1,18 +1,16 @@
 package com.bignerdranch.android.test_3
 
 import android.net.Uri
-import android.util.Log
 import androidx.paging.PagingSource
 import androidx.paging.PagingState
 import com.bignerdranch.android.test_3.api.PersonsApi
-import com.bignerdranch.android.test_3.model.Result
+import com.bignerdranch.android.test_3.model.Persons.Result
 import java.lang.Exception
 
 class PersonsPagingSource(private val loader: PersonsApi) : PagingSource<Int, Result>() {
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Result> {
         return try {
-
 
             val nextPage: Int = params.key ?: FIRST_PAGE
             val response = loader.fetchPersons(nextPage)
